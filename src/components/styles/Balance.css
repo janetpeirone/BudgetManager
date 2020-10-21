@@ -1,0 +1,17 @@
+div{
+    display:block;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 15px;    
+    text-align: center;
+    display: block;
+}
+
+h3{
+    display: inline-block;
+    padding: 5px 10px;
+    margin: auto;
+}
+
+p{
+    display: inline-block;
+}
