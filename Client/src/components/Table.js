@@ -1,45 +1,45 @@
 import React from 'react';
-import LastOperations from './LastOperations';
-import './styles/LastOperations.css'
+import LatestOperations from './LatestOperations';
+import './styles/LastOperations.css';
+import Loading from './Loading';
 
 class Table extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          data: []          
+          data: [],
+          loading: true,
+          error: null
         };
     }
-    componentDidMount() {
-        this.setState({
-        data: [{
-              "id": 1, 
-              "concept": "Cobro del mes", 
-              "amount":50000, 
-              "date":"23/03/1992",
-              "type":"Ingreso"
-              },{
-              "id": 2, 
-              "concept": "Compra comida", 
-              "amount":1500, 
-              "date":"25/03/1992",
-              "type":"Egreso"
-             },{
-              "id": 3, 
-              "concept": "Cobro alquiler", 
-              "amount":5500, 
-              "date":"28/03/1992",
-              "type":"Ingreso" 
-            },{
-              "id": 4, 
-              "concept": "Compra ferretería", 
-              "amount":500, 
-              "date":"23/03/1992",
-              "type":"Egreso" 
-            }]
-        });
+    
+    async componentDidMount() {
+        await this.fetchOperations();        
+    }    
+
+    fetchOperations = async () => {
+        try {
+            let res = await fetch('http://localhost:4000/latestoperations');
+            let data = await res.json();
+            this.setState({
+                data,
+                loading: false
+            });
+            
+        } catch (error) {
+            this.setState({
+                loading: false,
+                error
+            });            
+        }
+                
     }
 
     render() {
+        if (this.state.loading)
+            return <Loading />
+        if (this.state.error)
+            return <p>Ha ocurrido un error</p>
         return (
             <table>
                 <thead>
@@ -52,12 +52,14 @@ class Table extends React.Component {
                 </thead>
                 <tbody>
                     { this.state.data.map((operation) =>
-                        <LastOperations 
+                        <LatestOperations 
                             key={operation.id}
                             concept={operation.concept}
                             amount={operation.amount}
-                            date={operation.date}
-                            type={operation.type}
+                            date={operation.op_date.slice(8,10)+'/'+
+                                operation.op_date.slice(5,7)+'/'+
+                                operation.op_date.slice(0,4)}
+                            type={operation.op_type}
                         />
                     )}
                 </tbody>                                                       

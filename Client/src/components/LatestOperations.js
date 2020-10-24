@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LastOperations (props) {    
+function LatestOperations (props) {    
   return(
     <tr>
       <td>{props.concept}</td>
@@ -11,4 +11,4 @@ function LastOperations (props) {
   )     
 }
 
-export default LastOperations
+export default LatestOperations

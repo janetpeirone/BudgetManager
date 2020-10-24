@@ -5,10 +5,14 @@ class Register extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        concept: '',
-        amount: 0,
-        op_date: '',
-        op_type: 'income'
+        data: {
+          concept: '',
+          amount: 0,
+          op_date: '',
+          op_type: 'Ingreso'
+        },
+        loading: false,
+        error: null        
       };
   
       this.handleInputChange = this.handleInputChange.bind(this);
@@ -21,14 +25,38 @@ class Register extends React.Component {
       const name = event.target.name;
   
       this.setState({
-        [name]: value
+        data: {...this.state.data,
+          [name]: value}        
       });
     }
 
-    handleSubmit(event) {
-      alert('Se ha registrado la operación correctamente');
-      console.log(this.state)
-      event.preventDefault();
+    async handleSubmit(event) {
+      this.setState({
+        loading: true
+      })
+      //event.preventDefault();
+      try {
+        let config = {
+          method: 'POST',
+          headers: {
+            'Accept':'application/json',
+            'Content-type':'application/json'
+          },
+          body: JSON.stringify(this.state.data)
+        };
+
+        let res = await fetch('http://localhost:4000/operations', config);
+        let json = await res.json();
+        console.log(json)
+
+        this.setState({
+          loading: false
+        })
+        alert('Se cargaron los datos correctamente')        
+        
+      } catch (error) {
+        //alert('Ha ocurrido un error en la carga de datos')      
+      }            
     }
   
     render() {
@@ -40,24 +68,24 @@ class Register extends React.Component {
           <input 
             name="concept"
             type="text"
-            value={this.state.concept}
+            value={this.state.data.concept}
             onChange={this.handleInputChange} />          
           <label>Cantidad:</label>
           <input
             name="amount"
             type="number"
-            value={this.state.amount}
+            value={this.state.data.amount}
             onChange={this.handleInputChange} />          
           <label>Fecha de la operación:</label>
           <input
             name="op_date"
             type="date"
-            value={this.state.op_date}
+            value={this.state.data.op_date}
             onChange={this.handleInputChange} />          
           <label>Tipo de operación:</label>
           <select 
             name="op_type" 
-            value={this.state.op_type} 
+            value={this.state.data.op_type} 
             onChange={this.handleInputChange}>
             <option value="Ingreso">Ingreso</option>
             <option value="Egreso">Egreso</option>                

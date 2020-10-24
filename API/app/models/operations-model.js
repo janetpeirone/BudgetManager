@@ -55,7 +55,7 @@ Operation.getAll = result => {
 };
 
 Operation.getLatest = result => {
-  sql.query("SELECT * FROM monetary_operations ORDER BY created_at DESC LIMIT 10;", (err, res) => {
+  sql.query("SELECT * FROM monetary_operations WHERE user_id IS NULL ORDER BY created_at DESC LIMIT 10 ", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

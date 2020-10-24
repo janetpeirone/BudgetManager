@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Register from './components/Register'
-import Balance from './components/Balance'
-import Table from './components/Table'
-import Welcome from './components/Welcome'
+import Register from './components/Register';
+import Balance from './components/Balance';
+import Table from './components/Table';
+import Welcome from './components/Welcome';
 
 import './index.css';
 // import App from './App';
@@ -35,7 +35,7 @@ ReactDOM.render(<div>
                 </div>,
                 home_container);
   
-const table_container = document.getElementById('last_op_content');
+const table_container = document.getElementById('latests_op_content');
 ReactDOM.render(<Table />, table_container);
 
 const register_container = document.getElementById('register_form');

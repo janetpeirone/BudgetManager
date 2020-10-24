@@ -4,7 +4,7 @@ const Operation = require("../models/operations-model.js");
 exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
-    res.status(400).send({
+    res.status(400).json({
       message: "Content can not be empty!"
     });
   }
@@ -21,11 +21,11 @@ exports.create = (req, res) => {
   // Save Operation in the database
   Operation.create(operation, (err, data) => {
     if (err)
-      res.status(500).send({
+      res.status(500).json({
         message:
           err.message || "Some error occurred while creating the operation."
       });
-    else res.send(data);
+    else res.json(data);
   });  
 };
 
@@ -33,11 +33,11 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     Operation.getAll((err, data) => {
         if (err)
-          res.status(500).send({
+          res.status(500).json({
             message:
               err.message || "Some error occurred while retrieving operations."
           });
-        else res.send(data);
+        else res.json(data);
       });  
 };
 
@@ -45,11 +45,11 @@ exports.findAll = (req, res) => {
 exports.findLatest = (req, res) => {
   Operation.getLatest((err, data) => {
       if (err)
-        res.status(500).send({
+        res.status(500).json({
           message:
             err.message || "Some error occurred while retrieving operations."
         });
-      else res.send(data);
+      else res.json(data);
     });  
 };
 
@@ -59,15 +59,15 @@ exports.findOne = (req, res) => {
     Operation.findById(req.params.operationId, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
-            res.status(404).send({
+            res.status(404).json({
               message: `Not found operation with id ${req.params.operationId}.`
             });
           } else {
-            res.status(500).send({
+            res.status(500).json({
               message: "Error retrieving operation with id " + req.params.operationId
             });
           }
-        } else res.send(data);
+        } else res.json(data);
       });  
 };
 
@@ -75,7 +75,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   // Validate Request
   if (!req.body) {
-    res.status(400).send({
+    res.status(400).json({
       message: "Content can not be empty!"
     });
   }
@@ -86,15 +86,15 @@ exports.update = (req, res) => {
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
-          res.status(404).send({
+          res.status(404).json({
             message: `Not found operation with id ${req.params.operationId}.`
           });
         } else {
-          res.status(500).send({
+          res.status(500).json({
             message: "Error updating operation with id " + req.params.operationId
           });
         }
-      } else res.send(data);
+      } else res.json(data);
     }
   );  
 };
@@ -104,15 +104,15 @@ exports.delete = (req, res) => {
     Operation.remove(req.params.operationId, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
-            res.status(404).send({
+            res.status(404).json({
               message: `Not found operation with id ${req.params.operationId}.`
             });
           } else {
-            res.status(500).send({
+            res.status(500).json({
               message: "Could not delete operation with id " + req.params.operationId
             });
           }
-        } else res.send({ message: `Operation was deleted successfully!` });
+        } else res.json({ message: `Operation was deleted successfully!` });
       });  
 };
 
@@ -120,10 +120,10 @@ exports.delete = (req, res) => {
 exports.deleteAll = (req, res) => {
     Operation.removeAll((err, data) => {
         if (err)
-          res.status(500).send({
+          res.status(500).json({
             message:
               err.message || "Some error occurred while removing all operations."
           });
-        else res.send({ message: `All operations were deleted successfully!` });
+        else res.json({ message: `All operations were deleted successfully!` });
       });  
 };
