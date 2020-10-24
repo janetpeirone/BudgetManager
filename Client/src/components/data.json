@@ -1,0 +1,25 @@
+[{
+    "id": 1, 
+    "concept": "Cobro del mes", 
+    "amount":50000, 
+    "date":"23/03/1992",
+    "type":"Ingreso"
+},{
+    "id": 2, 
+    "concept": "Compra comida", 
+    "amount":1500, 
+    "date":"25/03/1992",
+    "type":"Egreso"
+},{
+    "id": 3, 
+    "concept": "Cobro alquiler", 
+    "amount":5500, 
+    "date":"28/03/1992",
+    "type":"Ingreso" 
+},{
+    "id": 4, 
+    "concept": "Compra ferretería", 
+    "amount":500, 
+    "date":"23/03/1992",
+    "type":"Egreso" 
+}]
