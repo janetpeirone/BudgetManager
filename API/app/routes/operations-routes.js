@@ -12,6 +12,9 @@ router.get("/operations", operations.findAll);
 // Retrieve last 10 Operations
 router.get("/latestoperations", operations.findLatest);
 
+// Retrieve Operations by Type
+router.get("/operations/:operationType", operations.findType);
+
 // Retrieve a single Operation with operationId
 router.get("/operations/:operationId", operations.findOne);
 

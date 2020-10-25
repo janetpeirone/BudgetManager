@@ -71,6 +71,23 @@ exports.findOne = (req, res) => {
       });  
 };
 
+// Find Operatiosn with operationType
+exports.findType = (req, res) => {
+  Operation.findByType(req.params.operationType, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).json({
+            message: `Not found operation with id ${req.params.operationType}.`
+          });
+        } else {
+          res.status(500).json({
+            message: "Error retrieving operation with id " + req.params.operationId
+          });
+        }
+      } else res.json(data);
+    });  
+};
+
 // Update a Operation identified by the operationId in the request
 exports.update = (req, res) => {
   // Validate Request

@@ -41,6 +41,25 @@ Operation.findById = (operationId, result) => {
   });
 };
 
+Operation.findByType = (operationType, result) => {
+  sql.query(`SELECT * FROM monetary_operations WHERE op_type = "${operationType}" LIMIT 50`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found operations: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Operation with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 Operation.getAll = result => {
   sql.query("SELECT * FROM monetary_operations", (err, res) => {
     if (err) {

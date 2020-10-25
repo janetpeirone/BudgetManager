@@ -8,8 +8,7 @@ class Balance extends React.Component {
           result: '',          
         };
     
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);        
     }
     handleChange(event) {
         const target = event.target;
@@ -20,12 +19,8 @@ class Balance extends React.Component {
         this.setState({
           [name]: value
         });
-      }
-  
-      handleSubmit(event) {
-        alert('Se ha registrado la operación correctamente');
-        event.preventDefault();
-      }
+      } 
+      
     render() {
         return (
             <div>
