@@ -4,35 +4,15 @@ import Register from './components/Register';
 import Balance from './components/Balance';
 import Table from './components/Table';
 import Welcome from './components/Welcome';
-import ListTable from './components/ListTable'
-
+import ListTable from './components/ListTable';
 import './index.css';
-// import App from './App';
-// import * as serviceWorker from './serviceWorker';
-
-const resultado_test = {
-  total: '260',
-}
-
-function getTotal(resultado_test) {
-  return `$ ${resultado_test.total}`
-}
-
-// function getGreeting(user) {
-//   if (user){
-//   return <h3>Hola, {getName(user)}</h3>
-//   }
-//   return <h3>Bienvenido...</h3>
-// }
 
 const home_container = document.getElementById('balance_content');
 ReactDOM.render(<div>
                 <Welcome 
-                    username="Janet Peirone"
+                    username="Usuario de Prueba"
                 />
-                <Balance 
-                    balance_result={getTotal(resultado_test)}
-                />
+                <Balance />
                 </div>,
                 home_container);
   

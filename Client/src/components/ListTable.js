@@ -21,7 +21,8 @@ class ListTable extends React.Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.getData = this.getData.bind(this);        
+        this.getData = this.getData.bind(this); 
+        this.getEditData = this.getEditData.bind(this);       
     }
     
     async getData(val) {
@@ -31,7 +32,7 @@ class ListTable extends React.Component {
             edit_amount: val.amount,
             edit_op_date: val.op_date.slice(0,10)
         })
-        console.log('Edit selected id: ', this.state)      
+        console.log('Edit selected id: ', this.state.edit_id)      
     }    
 
     async componentDidMount() {
@@ -44,6 +45,14 @@ class ListTable extends React.Component {
           type: value        
         }); 
         await this.fetchOperations(this.state.edit); 
+    }
+
+    async getEditData(name,value) {
+        await this.setState({
+            ...this.state, 
+            [name]: value
+        })
+        console.log('Editando lo siguiente: ', name, value)      
     }
 
     fetchOperations = async () => {
@@ -108,6 +117,7 @@ class ListTable extends React.Component {
                 </table>
                 <div id='edit-form'>
                     <EditForm 
+                        sendData={this.getEditData}
                         id={this.state.edit_id}
                         concept={this.state.edit_concept}
                         amount={this.state.edit_amount}

@@ -6,39 +6,16 @@ class EditForm extends React.Component {
       super(props);
       this.state = {   
         loading: false,
-        error: null,  
-        data: {
-            concept:'',
-            amount:0,
-            op_date:''
-        }      
+        error: null             
       };
-      this.componentDidMount = this.componentDidMount.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({
-            data: {
-                concept: this.props.concept,
-                amount: this.props.amount,
-                op_date: this.props.op_date
-            }
-        });
-        console.log(this.state.data)
-    }
-  
     handleInputChange(event) {
-        //const value = target.type === 'checkbox' ? target.checked : target.value;
         const value = event.target.value;
         const name = event.target.name;
-    
-        this.setState({
-          data: {...this.state.data,
-            [name]: value}        
-        });
-        this.props = {[name]:value}
+        this.props.sendData(name, value)       
       }
 
     async handleSubmit(event) {
@@ -53,9 +30,9 @@ class EditForm extends React.Component {
             'Accept':'application/json',
             'Content-type':'application/json'
           },
-          body: JSON.stringify(this.state.data)
+          body: JSON.stringify(this.props)
         };
-        console.log(this.state.data)
+        console.log(this.props)
         let res = await fetch('http://localhost:4000/'+this.props.id, config);
         let json = await res.json();
         console.log(json)
@@ -68,32 +45,32 @@ class EditForm extends React.Component {
       } catch (error) {
             console.log('error: ',error)      
       }            
-    }
+    }    
   
     render() {
       return (        
         <form
           onSubmit={this.handleSubmit}
         >   <div>
-                <label>Editar operación número: {this.props.id}</label>
+                <p>Editar operación número: {this.props.id}</p>
             </div>            
             <label>Concepto:</label>
             <input 
-                name="concept"
+                name="edit_concept"
                 type="text"
-                value={this.state.data.concept}
+                value={this.props.concept}
                 onChange={this.handleInputChange} />          
             <label>Cantidad:</label>
             <input
-                name="amount"
+                name="edit_amount"
                 type="number"
-                value={this.state.data.amount}
+                value={this.props.amount}
                 onChange={this.handleInputChange} />          
             <label>Fecha de la operación:</label>
             <input
-                name="op_date"
+                name="edit_op_date"
                 type="date"
-                value={this.state.data.op_date}
+                value={this.props.op_date}
                 onChange={this.handleInputChange} />                            
             <button type="submit">Enviar cambios</button>
         </form>

@@ -41,6 +41,7 @@
 }
 
 #edit-form{
-    display: inline-table;
+    display: inline-flex;
     margin-left: 20px;
 }
+
