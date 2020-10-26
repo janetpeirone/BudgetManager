@@ -26,6 +26,7 @@
 #list-table tbody tr:hover {background-color: #B8DCFF;}
 
 #list-select{
+    display: inline-flex;
     font-family: 'Josefin Sans', sans-serif;
     color: #545473;
     font-size: 17px;
@@ -34,14 +35,15 @@
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    margin: 5px;
+    margin-right: 20px;
     border-radius: 5px;
     border: 1px solid #545473;
+    align-self: baseline;
     text-align: center;    
 }
 
 #edit-form{
-    display: inline-flex;
+    display: inline-table;
     margin-left: 20px;
 }
 

@@ -10,6 +10,7 @@ class EditForm extends React.Component {
       };
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.delete = this.delete.bind(this);
     }
 
     handleInputChange(event) {
@@ -45,7 +46,35 @@ class EditForm extends React.Component {
       } catch (error) {
             console.log('error: ',error)      
       }            
-    }    
+    }   
+    
+    async delete(event) {
+      this.setState({
+        loading: true
+      })
+      //event.preventDefault();
+      try {
+        let config = {
+          method: 'DELETE',
+          headers: {
+            'Accept':'application/json',
+            'Content-type':'application/json'
+          }        
+        };
+        console.log(this.props)
+        let res = await fetch('http://localhost:4000/'+this.props.id, config);
+        let json = await res.json();
+        console.log(json)
+
+        this.setState({
+          loading: false
+        })
+        //alert('Se editaron los datos correctamente')        
+        
+      } catch (error) {
+            console.log('error: ',error)      
+      }            
+    }
   
     render() {
       return (        
@@ -73,6 +102,7 @@ class EditForm extends React.Component {
                 value={this.props.op_date}
                 onChange={this.handleInputChange} />                            
             <button type="submit">Enviar cambios</button>
+            <button onClick={this.delete}>Eliminar registro</button>
         </form>
       );
     }
