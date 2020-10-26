@@ -12,8 +12,7 @@ class ListByType extends React.Component {
     }
 
     handleClick(event) { 
-        console.log(this.props.id)
-        return this.props.id
+        this.props.sendData(this.props)
     }
 
     // shouldComponentUpdate(nextProps, nextState) {

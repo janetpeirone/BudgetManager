@@ -30,8 +30,8 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Operations from the database.
-exports.findAll = (req, res) => {
-    Operation.getAll((err, data) => {
+exports.findBalance = (req, res) => {
+    Operation.getBalance((err, data) => {
         if (err)
           res.status(500).json({
             message:

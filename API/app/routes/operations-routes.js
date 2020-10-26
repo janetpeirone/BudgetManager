@@ -7,7 +7,7 @@ const operations = require("../controllers/operations-controller.js");
 router.post("/operations", operations.create);
 
 // Retrieve all Operations
-router.get("/operations", operations.findAll);
+router.get("/operations", operations.findBalance);
 
 // Retrieve last 10 Operations
 router.get("/latestoperations", operations.findLatest);
@@ -16,13 +16,13 @@ router.get("/latestoperations", operations.findLatest);
 router.get("/operations/:operationType", operations.findType);
 
 // Retrieve a single Operation with operationId
-router.get("/operations/:operationId", operations.findOne);
+router.get("/:operationId", operations.findOne);
 
 // Update a Operation with operationId
-router.put("/operations/:operationId", operations.update);
+router.put("/:operationId", operations.update);
 
 // Delete a Operation with operationId
-router.delete("/operations/:operationId", operations.delete);
+router.delete("/:operationId", operations.delete);
 
 // Delete all Operations
 router.delete("/operations", operations.deleteAll);

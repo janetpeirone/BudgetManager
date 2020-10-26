@@ -42,7 +42,7 @@ Operation.findById = (operationId, result) => {
 };
 
 Operation.findByType = (operationType, result) => {
-  sql.query(`SELECT * FROM monetary_operations WHERE op_type = "${operationType}" LIMIT 50`, (err, res) => {
+  sql.query(`SELECT * FROM monetary_operations WHERE (op_type = "${operationType}" AND user_id IS NULL) ORDER BY created_at DESC LIMIT 50`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -60,8 +60,8 @@ Operation.findByType = (operationType, result) => {
   });
 };
 
-Operation.getAll = result => {
-  sql.query("SELECT * FROM monetary_operations", (err, res) => {
+Operation.getBalance = result => {
+  sql.query("SELECT SUM(CASE op_type WHEN 'Ingreso' THEN amount WHEN 'Egreso' THEN -amount END) AS 'value' FROM monetary_operations WHERE user_id IS NULL", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

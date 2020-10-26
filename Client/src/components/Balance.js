@@ -3,31 +3,39 @@ import './styles/Balance.css';
 
 class Balance extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-          result: '',          
-        };
-    
-        this.handleChange = this.handleChange.bind(this);        
+      super(props);
+      this.state = {
+        result: '',          
+      };         
     }
-    handleChange(event) {
-        const target = event.target;
-        //const value = target.type === 'checkbox' ? target.checked : target.value;
-        const value = target.value;
-        const name = target.name;
-    
+
+    async componentDidMount() {
+      await this.fetchOperations();        
+    }    
+
+    fetchOperations = async () => {
+      try {
+        let res = await fetch('http://localhost:4000/operations');
+        let result = await res.json();
+        let value = (result[0].value);        
         this.setState({
-          [name]: value
-        });
-      } 
+          result:value       
+        });       
+          
+      } catch (error) {
+        this.setState({
+          result:'???'
+        });            
+      }                
+    }     
       
     render() {
-        return (
-            <div>
-                <h3>El resultado actual de su balance es de: </h3>
-                <p>{this.props.balance_result}</p>
-            </div>                       
-        )
+      return (
+        <div>
+            <h3>El resultado actual de su balance es de: </h3>
+            <p>{this.state.result}</p>
+        </div>                       
+      )
     }
 }
 

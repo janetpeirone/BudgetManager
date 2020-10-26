@@ -2,6 +2,7 @@ import React from 'react';
 import ListByType from './ListByType';
 import './styles/ListTable.css';
 import Loading from './Loading';
+import EditForm from './EditForm';
 
 class ListTable extends React.Component {
     constructor(props) {
@@ -11,21 +12,43 @@ class ListTable extends React.Component {
           type: 'Ingreso',
           loading: true,
           error: null,
-          edit: null
+          edit: false,
+          submit: false,
+          edit_id: '',
+          edit_concept: '',
+          edit_amount: 0,
+          edit_op_date: ''
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        //this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
+        this.getData = this.getData.bind(this);        
     }
     
-    async componentDidMount() {
-        await this.fetchOperations();        
+    async getData(val) {
+        await this.setState({
+            edit_id: val.id,
+            edit_concept: val.concept,
+            edit_amount: val.amount,
+            edit_op_date: val.op_date.slice(0,10)
+        })
+        console.log('Edit selected id: ', this.state)      
     }    
+
+    async componentDidMount() {
+        await this.fetchOperations(this.state.edit);        
+    }    
+
+    async handleInputChange(event) { 
+        const value = event.target.value;                  
+        await this.setState({
+          type: value        
+        }); 
+        await this.fetchOperations(this.state.edit); 
+    }
 
     fetchOperations = async () => {
         try {
-            let res = await fetch('http://localhost:4000/operations/' + this.state.type);
+            let res = await fetch('http://localhost:4000/operations/' + this.state.type);            
             let data = await res.json();
             this.setState({
                 data,
@@ -40,20 +63,13 @@ class ListTable extends React.Component {
             });            
         }                
     }
-
-    async handleInputChange(event) { 
-        const value = event.target.value;                  
-        await this.setState({
-          type: value        
-        }); 
-        await this.fetchOperations(); 
-    }
     
     render() {
         if (this.state.loading)
             return <Loading />
         if (this.state.error)
             return <p>Ha ocurrido un error al cargar los datos</p>
+        
         return (
             <div>
                 <div>
@@ -64,7 +80,7 @@ class ListTable extends React.Component {
                         onChange={this.handleInputChange}>
                         <option value="Ingreso">Ingreso</option>
                         <option value="Egreso">Egreso</option>                
-                    </select>
+                    </select>           
                 </div>
                 <table id='list-table'>
                     <thead>                    
@@ -77,10 +93,12 @@ class ListTable extends React.Component {
                     <tbody>
                         { this.state.data.map((operation) =>
                             <ListByType
+                                sendData={this.getData}
                                 key={operation.id} 
                                 id={operation.id}                               
                                 concept={operation.concept}
                                 amount={operation.amount}
+                                op_date={operation.op_date}
                                 date={operation.op_date.slice(8,10)+'/'+
                                     operation.op_date.slice(5,7)+'/'+
                                     operation.op_date.slice(0,4)}                            
@@ -88,8 +106,17 @@ class ListTable extends React.Component {
                         )}
                     </tbody>                                                       
                 </table>
+                <div id='edit-form'>
+                    <EditForm 
+                        id={this.state.edit_id}
+                        concept={this.state.edit_concept}
+                        amount={this.state.edit_amount}
+                        op_date={this.state.edit_op_date}
+                        op_type={this.state.type}
+                    /> 
+                </div>                               
             </div>                                               
-        )
+        )                   
     }
 }
 

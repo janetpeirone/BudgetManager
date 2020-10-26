@@ -1,5 +1,5 @@
 #list-table{
-    display:inline-flexbox;
+    display:inline-table;
     font-family: 'Josefin Sans', sans-serif;
     color: #545473;
     font-size: 17px;
@@ -34,9 +34,13 @@
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    margin: 5px;
     border-radius: 5px;
     border: 1px solid #545473;
     text-align: center;    
+}
+
+#edit-form{
+    display: inline-table;
+    margin-left: 20px;
 }
